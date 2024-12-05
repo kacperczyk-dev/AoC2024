@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class Day01 {
@@ -15,7 +16,8 @@ public class Day01 {
         readInput(l1, l2);
         l1.sort(Comparator.comparing(Integer::intValue));
         l2.sort(Comparator.comparing(Integer::intValue));
-        System.out.println(IntStream.range(0, l1.size()).parallel().map(i -> Math.abs(l1.get(i) - l2.get(i))).sum());
+        System.out.println("Day01 - Part1: " + IntStream.range(0, l1.size()).parallel().map(i -> Math.abs(l1.get(i) - l2.get(i))).sum());
+        System.out.println("Day01 - Part2: " + IntStream.range(0, l1.size()).parallel().mapToLong(i -> l1.get(i) * l2.stream().filter(n -> Objects.equals(n, l1.get(i))).count()).sum());
     }
 
     private static void readInput(List<Integer> l1, List<Integer> l2) {
