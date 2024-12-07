@@ -1,7 +1,5 @@
 package Day02;
 
-import Day01.Day01;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -15,6 +13,31 @@ public class Day02 {
         List<List<Integer>> reports = new ArrayList<>();
         readInputInto(reports);
         System.out.println("Day02 - Part1: " + part1(reports));
+        System.out.println("Day02 - Part2: " + part2(reports));
+    }
+
+    private static int part2(List<List<Integer>> reports) {
+        return reports.parallelStream().mapToInt(report -> {
+            int prev = report.get(0);
+            boolean increasing = report.get(report.size() - 1) - prev > 0;
+            int bad = 0;
+            for (int i = 1; i < report.size(); i++) {
+                if (increasing && !(report.get(i) - prev > 0 && report.get(i) - prev <= 3)) {
+                    bad++;
+                    if(bad > 1)
+                        break;
+                    continue;
+                }
+                if (!increasing && !(report.get(i) - prev < 0 && report.get(i) - prev >= -3)) {
+                    bad++;
+                    if(bad > 1)
+                        break;
+                    continue;
+                }
+                prev = report.get(i);
+            }
+            return bad <= 1 ? 1 : 0;
+        }).sum();
     }
 
     private static int part1(List<List<Integer>> reports) {
@@ -23,7 +46,7 @@ public class Day02 {
             boolean increasing = report.get(1) - prev > 0;
             boolean safe = true;
             for (int i = 1; i < report.size(); i++) {
-                if ((increasing && !(report.get(i) - prev > 0 && report.get(i) - prev <= 3)) || !increasing && !(report.get(i) - prev < 0 && report.get(i) - prev >= -3)) {
+                if ((increasing && !(report.get(i) - prev > 0 && report.get(i) - prev <= 3)) || (!increasing && !(report.get(i) - prev < 0 && report.get(i) - prev >= -3))) {
                     safe = false;
                     break;
                 }
