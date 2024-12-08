@@ -12,6 +12,11 @@ public class Day04 {
 
     public static void main(String[] args) {
         var matrix = readInput();
+        part1(matrix);
+
+    }
+
+    public static void part1(String[][] matrix) {
         var count = 0;
         count += Arrays.stream(matrix).map(r -> String.join("",r)).mapToInt( txt -> countWords(txt)).sum();
         count += Arrays.stream(transpose(matrix)).map(r -> String.join("",r)).mapToInt( txt -> countWords(txt)).sum();
